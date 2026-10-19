@@ -2,11 +2,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import basicSsl from '@vitejs/plugin-basic-ssl'
 
-const enableHttps = process.env.VITE_HTTPS === 'true' || process.argv.includes('--https')
-
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react(), ...(enableHttps ? [basicSsl()] : [])],
+export default defineConfig(({ mode }) => {
+  const enableHttps = mode === 'https' || process.env.VITE_HTTPS === 'true'
+
+  return {
+    plugins: [react(), ...(enableHttps ? [basicSsl()] : [])],
   server: {
     headers: {
       'X-Content-Type-Options': 'nosniff',
@@ -79,4 +80,8 @@ export default defineConfig({
       exclude: ['node_modules/', 'tests/setup.ts'],
     },
   },
+}
 })
+
+
+
