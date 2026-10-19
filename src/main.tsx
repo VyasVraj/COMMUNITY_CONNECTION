@@ -28,8 +28,12 @@ createRoot(rootElement).render(
 // Register service worker for PWA support in compatible environments
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {
-      // SW registration failed silently without breaking user app
+    navigator.serviceWorker.register('/sw.js').catch((error) => {
+      // In development, log service worker errors to console for transparent debugging
+      if (import.meta.env.DEV) {
+        // eslint-disable-next-line no-console
+        console.warn('[PWA] Service worker registration error:', error)
+      }
     })
   })
 }

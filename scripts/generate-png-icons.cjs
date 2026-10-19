@@ -134,7 +134,15 @@ function createPng(width, height, isMaskable = false) {
 
 const publicDir = path.resolve(__dirname, '../public');
 
-fs.writeFileSync(path.join(publicDir, 'pwa-icon-192.png'), createPng(192, 192, false));
-fs.writeFileSync(path.join(publicDir, 'pwa-icon-512.png'), createPng(512, 512, false));
-fs.writeFileSync(path.join(publicDir, 'pwa-maskable-512.png'), createPng(512, 512, true));
-console.log('PWA PNG icons generated successfully in public/');
+const icon192 = createPng(192, 192, false);
+const icon512 = createPng(512, 512, false);
+const iconMaskable = createPng(512, 512, true);
+
+fs.writeFileSync(path.join(publicDir, 'icon-192.png'), icon192);
+fs.writeFileSync(path.join(publicDir, 'icon-512.png'), icon512);
+fs.writeFileSync(path.join(publicDir, 'icon-maskable-512.png'), iconMaskable);
+fs.writeFileSync(path.join(publicDir, 'pwa-icon-192.png'), icon192);
+fs.writeFileSync(path.join(publicDir, 'pwa-icon-512.png'), icon512);
+fs.writeFileSync(path.join(publicDir, 'pwa-maskable-512.png'), iconMaskable);
+console.log('PWA PNG icons (icon-*.png and pwa-icon-*.png) generated successfully in public/');
+
