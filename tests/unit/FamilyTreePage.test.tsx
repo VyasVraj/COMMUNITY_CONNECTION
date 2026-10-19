@@ -261,7 +261,7 @@ describe('PersonDetailPage Integration with Family Tree', () => {
     } as unknown as ReturnType<typeof usePersonMutationsHook.useSoftDeletePerson>)
   })
 
-  it('renders "Family tree" navigation button in PersonDetailPage actions row', () => {
+  it('does not render "Family tree" navigation button in PersonDetailPage actions row', () => {
     vi.mocked(usePersonHook.usePerson).mockReturnValue({
       data: MOCK_PERSON,
       isLoading: false,
@@ -276,7 +276,7 @@ describe('PersonDetailPage Integration with Family Tree', () => {
       </MemoryRouter>
     )
 
-    expect(html).toContain('Family tree')
+    expect(html).not.toContain('Family tree')
     expect(html).toContain('Edit')
     expect(html).toContain('Delete')
   })

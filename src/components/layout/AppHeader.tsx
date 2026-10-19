@@ -10,12 +10,11 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { Menu, X, Users, User, UserCheck, LogOut, ChevronDown, ShieldCheck, CheckCircle, Bell, Settings, Shield } from 'lucide-react'
+import { Menu, X, Users, User, LogOut, ChevronDown, Shield } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { APP_NAME, ROUTES, ADMIN_ROLES, PLATFORM_ADMIN_ROLES } from '@/constants/app'
+import { APP_NAME, ROUTES, PLATFORM_ADMIN_ROLES } from '@/constants/app'
 import { useAuthContext } from '@/features/auth/context/AuthContext'
 import { signOut } from '@/features/auth/services/auth.service'
-import { NotificationBell } from '@/features/notifications'
 
 const NAV_LINKS = [
   { label: 'Discover', href: ROUTES.DISCOVER },
@@ -108,7 +107,6 @@ export function AppHeader() {
               <>
                 {isAuthenticated ? (
                   <>
-                    <NotificationBell />
                     {/* User menu — shown when authenticated */}
                     <div className="relative" ref={userMenuRef}>
                     <button
@@ -146,15 +144,6 @@ export function AppHeader() {
                           My Profile
                         </Link>
                         <Link
-                          to={ROUTES.CONNECTIONS}
-                          role="menuitem"
-                          onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-navy-700 hover:bg-navy-50"
-                        >
-                          <UserCheck className="h-4 w-4" />
-                          Connections
-                        </Link>
-                        <Link
                           to={ROUTES.PEOPLE}
                           role="menuitem"
                           onClick={() => setUserMenuOpen(false)}
@@ -162,24 +151,6 @@ export function AppHeader() {
                         >
                           <Users className="h-4 w-4" />
                           Census Records
-                        </Link>
-                        <Link
-                          to={ROUTES.NOTIFICATIONS}
-                          role="menuitem"
-                          onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-navy-700 hover:bg-navy-50"
-                        >
-                          <Bell className="h-4 w-4" />
-                          Notifications
-                        </Link>
-                        <Link
-                          to={ROUTES.NOTIFICATION_PREFERENCES}
-                          role="menuitem"
-                          onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-navy-700 hover:bg-navy-50"
-                        >
-                          <Settings className="h-4 w-4" />
-                          Notification Settings
                         </Link>
                         {profile?.role && PLATFORM_ADMIN_ROLES.includes(profile.role) && (
                           <Link
@@ -191,28 +162,6 @@ export function AppHeader() {
                             <Shield className="h-4 w-4 text-brand-600" />
                             Admin Hub
                           </Link>
-                        )}
-                        {profile?.role && ADMIN_ROLES.includes(profile.role) && (
-                          <>
-                            <Link
-                              to={ROUTES.CLAIM_REVIEW_QUEUE}
-                              role="menuitem"
-                              onClick={() => setUserMenuOpen(false)}
-                              className="flex items-center gap-2 px-4 py-2 text-sm text-navy-700 hover:bg-navy-50"
-                            >
-                              <ShieldCheck className="h-4 w-4 text-brand-600" />
-                              Claim Reviews
-                            </Link>
-                            <Link
-                              to={ROUTES.VERIFICATION_REVIEW_QUEUE}
-                              role="menuitem"
-                              onClick={() => setUserMenuOpen(false)}
-                              className="flex items-center gap-2 px-4 py-2 text-sm text-navy-700 hover:bg-navy-50"
-                            >
-                              <CheckCircle className="h-4 w-4 text-emerald-600" />
-                              Verification Reviews
-                            </Link>
-                          </>
                         )}
                         <hr className="my-1 border-navy-100" />
                         <button
@@ -251,7 +200,6 @@ export function AppHeader() {
 
           {/* Mobile menu toggle & actions */}
           <div className="flex items-center gap-2 md:hidden">
-            {!isLoading && isAuthenticated && <NotificationBell />}
             <button
               type="button"
               className="rounded p-2 text-navy-200 transition-colors hover:bg-navy-700 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
@@ -312,36 +260,12 @@ export function AppHeader() {
                       {profile?.display_name ?? 'My Profile'}
                     </Link>
                     <Link
-                      to={ROUTES.CONNECTIONS}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-2 rounded px-3 py-2 text-sm font-medium text-navy-200 transition-colors hover:bg-navy-700 hover:text-white"
-                    >
-                      <UserCheck className="h-4 w-4" />
-                      Connections
-                    </Link>
-                    <Link
                       to={ROUTES.PEOPLE}
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center gap-2 rounded px-3 py-2 text-sm font-medium text-navy-200 transition-colors hover:bg-navy-700 hover:text-white"
                     >
                       <Users className="h-4 w-4" />
                       Census Records
-                    </Link>
-                    <Link
-                      to={ROUTES.NOTIFICATIONS}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-2 rounded px-3 py-2 text-sm font-medium text-navy-200 transition-colors hover:bg-navy-700 hover:text-white"
-                    >
-                      <Bell className="h-4 w-4" />
-                      Notifications
-                    </Link>
-                    <Link
-                      to={ROUTES.NOTIFICATION_PREFERENCES}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-2 rounded px-3 py-2 text-sm font-medium text-navy-200 transition-colors hover:bg-navy-700 hover:text-white"
-                    >
-                      <Settings className="h-4 w-4" />
-                      Notification Settings
                     </Link>
                     {profile?.role && PLATFORM_ADMIN_ROLES.includes(profile.role) && (
                       <Link
@@ -352,26 +276,6 @@ export function AppHeader() {
                         <Shield className="h-4 w-4 text-brand-400" />
                         Admin Hub
                       </Link>
-                    )}
-                    {profile?.role && ADMIN_ROLES.includes(profile.role) && (
-                      <>
-                        <Link
-                          to={ROUTES.CLAIM_REVIEW_QUEUE}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center gap-2 rounded px-3 py-2 text-sm font-medium text-navy-200 transition-colors hover:bg-navy-700 hover:text-white"
-                        >
-                          <ShieldCheck className="h-4 w-4 text-brand-400" />
-                          Claim Reviews
-                        </Link>
-                        <Link
-                          to={ROUTES.VERIFICATION_REVIEW_QUEUE}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center gap-2 rounded px-3 py-2 text-sm font-medium text-navy-200 transition-colors hover:bg-navy-700 hover:text-white"
-                        >
-                          <CheckCircle className="h-4 w-4 text-emerald-400" />
-                          Verification Reviews
-                        </Link>
-                      </>
                     )}
                     <button
                       type="button"

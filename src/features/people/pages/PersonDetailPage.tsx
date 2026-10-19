@@ -11,15 +11,12 @@
 
 import { useParams, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { ArrowLeft, Pencil, Trash2, Network } from 'lucide-react'
+import { ArrowLeft, Pencil, Trash2 } from 'lucide-react'
 import { usePerson } from '../hooks/usePerson'
 import { useSoftDeletePerson } from '../hooks/usePersonMutations'
 import { PersonDetail } from '../components/PersonDetail'
 import { PersonRelationshipsList } from '@/features/relationships'
 import { PersonFamiliesList } from '@/features/family-members'
-import { PersonConnectionSection } from '@/features/connections'
-import { PersonClaimSection } from '@/features/claims'
-import { PersonVerificationSection } from '@/features/verification'
 import { useAuthContext } from '@/features/auth/context/AuthContext'
 import { Button } from '@/components/forms/Button'
 import { ROUTES } from '@/constants/app'
@@ -98,13 +95,6 @@ export function PersonDetailPage() {
         <div className="flex flex-wrap gap-2">
           <Button
             variant="secondary"
-            onClick={() => navigate(ROUTES.PERSON_TREE(person.id))}
-          >
-            <Network className="h-4 w-4" />
-            Family tree
-          </Button>
-          <Button
-            variant="secondary"
             onClick={() => navigate(ROUTES.PERSON_EDIT(person.id))}
           >
             <Pencil className="h-4 w-4" />
@@ -152,25 +142,6 @@ export function PersonDetailPage() {
         <PersonDetail person={person} canEdit={canEdit} />
       </div>
 
-      {/* Community verification section */}
-      <div className="mt-6">
-        <PersonVerificationSection person={person} />
-      </div>
-
-      {/* Census record claim management */}
-      <div className="mt-6">
-        <PersonClaimSection person={person} />
-      </div>
-
-      {/* Social connection section for linked accounts */}
-      {person.user_id && (
-        <div className="mt-8">
-          <PersonConnectionSection
-            targetUserId={person.user_id}
-            personName={[person.first_name, person.last_name].filter(Boolean).join(' ')}
-          />
-        </div>
-      )}
 
       {/* Interpersonal relationships */}
       <div className="mt-8">

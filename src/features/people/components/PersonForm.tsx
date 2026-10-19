@@ -26,7 +26,6 @@ import { z } from 'zod'
 import { type CreatePersonInput } from '../schemas/people.schemas'
 import { Input } from '@/components/forms/Input'
 import { Button } from '@/components/forms/Button'
-import { PrivacyLevelSelect } from '@/components/forms/PrivacyLevelSelect'
 import type { PrivacyLevel } from '@/types'
 
 // ---------------------------------------------------------------------------
@@ -484,35 +483,6 @@ export function PersonForm({
         </div>
       </fieldset>
 
-      {/* ---- Privacy ---- */}
-      <fieldset>
-        <legend className="mb-1 text-sm font-semibold uppercase tracking-wide text-navy-500">
-          Privacy settings
-        </legend>
-        <p className="mb-4 text-xs text-navy-500">
-          Control who in the community can see each category of information.
-        </p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <PrivacyLevelSelect
-            label="Profile visibility"
-            hint="Who can see this person's record"
-            error={errors.profile_privacy?.message}
-            {...register('profile_privacy')}
-          />
-          <PrivacyLevelSelect
-            label="Contact visibility"
-            hint="Who can see email and phone"
-            error={errors.contact_privacy?.message}
-            {...register('contact_privacy')}
-          />
-          <PrivacyLevelSelect
-            label="Date of birth visibility"
-            hint="Who can see the date of birth"
-            error={errors.dob_privacy?.message}
-            {...register('dob_privacy')}
-          />
-        </div>
-      </fieldset>
 
       {/* ---- Submission ---- */}
       {submitError && (

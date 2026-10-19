@@ -27,7 +27,6 @@ import { RootLayout } from '@/components/layout/RootLayout'
 import { HomePage } from '@/features/home/pages/HomePage'
 import { NotFoundPage, RouteErrorPage } from '@/features/errors'
 import { ProtectedRoute, GuestOnlyRoute } from '@/components/common/ProtectedRoute'
-import { ModeratorRoute } from '@/components/common/ModeratorRoute'
 import { AdminRoute } from '@/components/common/AdminRoute'
 import { AdminLayout } from '@/features/admin'
 
@@ -72,28 +71,6 @@ const router = createBrowserRouter([
             path: ROUTES.FAMILY,
             element: <Navigate to={ROUTES.FAMILIES} replace />,
           },
-          {
-            path: ROUTES.CONNECTIONS,
-            lazy: () =>
-              import('@/features/connections/pages/ConnectionsPage').then((m) => ({
-                Component: m.ConnectionsPage,
-              })),
-          },
-          // Notifications (Phase 12)
-          {
-            path: ROUTES.NOTIFICATIONS,
-            lazy: () =>
-              import('@/features/notifications/pages/NotificationsPage').then((m) => ({
-                Component: m.NotificationsPage,
-              })),
-          },
-          {
-            path: ROUTES.NOTIFICATION_PREFERENCES,
-            lazy: () =>
-              import('@/features/notifications/pages/NotificationPreferencesPage').then((m) => ({
-                Component: m.NotificationPreferencesPage,
-              })),
-          },
           // People routes (Phase 3)
           {
             path: ROUTES.PEOPLE,
@@ -121,13 +98,6 @@ const router = createBrowserRouter([
             lazy: () =>
               import('@/features/people/pages/PersonEditPage').then((m) => ({
                 Component: m.PersonEditPage,
-              })),
-          },
-          {
-            path: '/people/:personId/tree',
-            lazy: () =>
-              import('@/features/tree/pages/FamilyTreePage').then((m) => ({
-                Component: m.FamilyTreePage,
               })),
           },
           // Families routes (Phase 3)
@@ -158,26 +128,6 @@ const router = createBrowserRouter([
               import('@/features/families/pages/FamilyEditPage').then((m) => ({
                 Component: m.FamilyEditPage,
               })),
-          },
-          // Moderator / Admin routes (Phase 8 Subtask 3 & Phase 9 Subtask 3)
-          {
-            element: <ModeratorRoute />,
-            children: [
-              {
-                path: ROUTES.CLAIM_REVIEW_QUEUE,
-                lazy: () =>
-                  import('@/features/claims/pages/ClaimReviewQueuePage').then((m) => ({
-                    Component: m.ClaimReviewQueuePage,
-                  })),
-              },
-              {
-                path: ROUTES.VERIFICATION_REVIEW_QUEUE,
-                lazy: () =>
-                  import('@/features/verification/pages/VerificationReviewQueuePage').then((m) => ({
-                    Component: m.VerificationReviewQueuePage,
-                  })),
-              },
-            ],
           },
           // Platform Administration routes (Phase 13)
           {

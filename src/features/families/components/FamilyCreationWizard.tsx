@@ -34,12 +34,10 @@ import {
   Trash2,
   UserPlus,
   MapPin,
-  Info,
 } from 'lucide-react'
 
 import { Input } from '@/components/forms/Input'
 import { Button } from '@/components/forms/Button'
-import { PrivacyLevelSelect } from '@/components/forms/PrivacyLevelSelect'
 import { useAuthContext } from '@/features/auth/context/AuthContext'
 import { useCreateFamily } from '../hooks/useFamilyMutations'
 import { addFamilyMember } from '@/features/family-members/services/family-members.service'
@@ -117,8 +115,8 @@ export function FamilyCreationWizard() {
   const { user } = useAuthContext()
   const createFamilyMutation = useCreateFamily()
 
-  // Wizard step state (1 to 4)
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1)
+  // Wizard step state (1 to 3)
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1)
 
   // Staged members for Step 3
   const [stagedMembers, setStagedMembers] = useState<StagedMember[]>([])
@@ -187,16 +185,9 @@ export function FamilyCreationWizard() {
     }
   }
 
-  async function handleNextFromStep2() {
-    const isValid = await trigger(['profile_privacy', 'members_privacy'])
-    if (isValid) {
-      setCurrentStep(3)
-    }
-  }
-
-  function handleNextFromStep3() {
+  function handleNextFromStep2() {
     setMemberError(null)
-    setCurrentStep(4)
+    setCurrentStep(3)
   }
 
   // -------------------------------------------------------------------------
@@ -484,9 +475,8 @@ export function FamilyCreationWizard() {
         <ol className="flex items-center justify-between text-xs sm:text-sm font-medium">
           {[
             { step: 1, label: 'Identity & Details' },
-            { step: 2, label: 'Privacy' },
-            { step: 3, label: 'Members' },
-            { step: 4, label: 'Review' },
+            { step: 2, label: 'Members' },
+            { step: 3, label: 'Review' },
           ].map(({ step, label }) => {
             const isCompleted = currentStep > step
             const isActive = currentStep === step
@@ -594,67 +584,16 @@ export function FamilyCreationWizard() {
 
           <div className="flex justify-end pt-4 border-t border-navy-100">
             <Button type="button" onClick={handleNextFromStep1} className="gap-2">
-              Next: Privacy
+              Next: Members
               <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </section>
       )}
 
-      {/* STEP 2: Privacy Settings */}
+      {/* STEP 2: Initial Members (Optional) */}
       {currentStep === 2 && (
         <section aria-labelledby="step2-title" className="space-y-6 animate-in fade-in duration-150">
-          <div>
-            <h2 id="step2-title" className="text-xl font-semibold text-navy-900">
-              Privacy Settings
-            </h2>
-            <p className="mt-1 text-sm text-navy-500">
-              Configure independent visibility levels for this family record and membership roster.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <PrivacyLevelSelect
-              label="Family profile visibility"
-              hint="Who can see the family record overview"
-              error={errors.profile_privacy?.message}
-              {...register('profile_privacy')}
-            />
-            <PrivacyLevelSelect
-              label="Members list visibility"
-              hint="Intended visibility for family members"
-              error={errors.members_privacy?.message}
-              {...register('members_privacy')}
-            />
-          </div>
-
-          <div className="rounded-lg bg-navy-50 p-4 text-xs text-navy-600 flex items-start gap-2.5">
-            <Info className="h-4 w-4 shrink-0 text-navy-500 mt-0.5" />
-            <div>
-              <p className="font-semibold text-navy-800">Privacy Notice</p>
-              <p className="mt-0.5">
-                Both profile and member visibility settings are recorded. Under currently deployed database policies,
-                family profile privacy determines visibility of associated membership records.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between pt-4 border-t border-navy-100">
-            <Button type="button" variant="secondary" onClick={() => setCurrentStep(1)} className="gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Back
-            </Button>
-            <Button type="button" onClick={handleNextFromStep2} className="gap-2">
-              Next: Initial Members
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </section>
-      )}
-
-      {/* STEP 3: Initial Members (Optional) */}
-      {currentStep === 3 && (
-        <section aria-labelledby="step3-title" className="space-y-6 animate-in fade-in duration-150">
           <div>
             <div className="flex items-center justify-between">
               <h2 id="step3-title" className="text-xl font-semibold text-navy-900">
@@ -834,11 +773,11 @@ export function FamilyCreationWizard() {
           )}
 
           <div className="flex items-center justify-between pt-4 border-t border-navy-100">
-            <Button type="button" variant="secondary" onClick={() => setCurrentStep(2)} className="gap-2">
+            <Button type="button" variant="secondary" onClick={() => setCurrentStep(1)} className="gap-2">
               <ArrowLeft className="h-4 w-4" />
               Back
             </Button>
-            <Button type="button" onClick={handleNextFromStep3} className="gap-2">
+            <Button type="button" onClick={handleNextFromStep2} className="gap-2">
               {stagedMembers.length === 0 ? 'Skip to Review' : 'Next: Review'}
               <ArrowRight className="h-4 w-4" />
             </Button>
@@ -846,15 +785,15 @@ export function FamilyCreationWizard() {
         </section>
       )}
 
-      {/* STEP 4: Review & Create */}
-      {currentStep === 4 && (
-        <section aria-labelledby="step4-title" className="space-y-6 animate-in fade-in duration-150">
+      {/* STEP 3: Review & Create */}
+      {currentStep === 3 && (
+        <section aria-labelledby="step3-title" className="space-y-6 animate-in fade-in duration-150">
           <div>
-            <h2 id="step4-title" className="text-xl font-semibold text-navy-900">
+            <h2 id="step3-title" className="text-xl font-semibold text-navy-900">
               Review & Create
             </h2>
             <p className="mt-1 text-sm text-navy-500">
-              Verify family details, privacy, and initial members before final registration.
+              Verify family details and initial members before final registration.
             </p>
           </div>
 
@@ -899,26 +838,6 @@ export function FamilyCreationWizard() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-navy-100 pt-3 text-xs">
-              <div>
-                <span className="font-semibold text-navy-500 uppercase tracking-wider block mb-1">
-                  Profile Privacy
-                </span>
-                <span className="rounded bg-navy-100 px-2 py-0.5 text-navy-700 font-medium">
-                  {formValues.profile_privacy}
-                </span>
-              </div>
-
-              <div>
-                <span className="font-semibold text-navy-500 uppercase tracking-wider block mb-1">
-                  Members Privacy
-                </span>
-                <span className="rounded bg-navy-100 px-2 py-0.5 text-navy-700 font-medium">
-                  {formValues.members_privacy}
-                </span>
-              </div>
-            </div>
-
             <div className="border-t border-navy-100 pt-3 text-xs">
               <span className="font-semibold text-navy-500 uppercase tracking-wider block mb-1">
                 Initial Members ({stagedMembers.length})
@@ -947,7 +866,7 @@ export function FamilyCreationWizard() {
             <Button
               type="button"
               variant="secondary"
-              onClick={() => setCurrentStep(3)}
+              onClick={() => setCurrentStep(2)}
               disabled={isCreating}
               className="gap-2"
             >

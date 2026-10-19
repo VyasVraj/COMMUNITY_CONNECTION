@@ -113,21 +113,16 @@ describe('AdminDashboardPage Component', () => {
     expect(markup).toContain('data-testid="metric-families"')
     expect(markup).toContain('88')
 
-    expect(markup).toContain('data-testid="metric-claims"')
-    expect(markup).toContain('4')
-    expect(markup).toContain('href="/admin/claims"')
-
-    expect(markup).toContain('data-testid="metric-verifications"')
-    expect(markup).toContain('7')
-    expect(markup).toContain('href="/admin/verifications"')
+    expect(markup).not.toContain('data-testid="metric-claims"')
+    expect(markup).not.toContain('data-testid="metric-verifications"')
 
     expect(markup).toContain('data-testid="metric-duplicates"')
     expect(markup).toContain('2')
     expect(markup).toContain('href="/admin/duplicates"')
 
     // Workflows section
-    expect(markup).toContain('Claim Review Queue')
-    expect(markup).toContain('Verification Review Queue')
+    expect(markup).not.toContain('Claim Review Queue')
+    expect(markup).not.toContain('Verification Review Queue')
     expect(markup).toContain('Duplicate Review Queue')
   })
 
@@ -157,8 +152,6 @@ describe('AdminDashboardPage Component', () => {
     expect(markup).toContain('data-testid="total-users-value">0</span>')
     expect(markup).toContain('data-testid="total-persons-value">0</span>')
     expect(markup).toContain('data-testid="total-families-value">0</span>')
-    expect(markup).toContain('data-testid="pending-claims-value">0</span>')
-    expect(markup).toContain('data-testid="pending-verifications-value">0</span>')
     expect(markup).toContain('data-testid="open-duplicates-value">0</span>')
   })
 })

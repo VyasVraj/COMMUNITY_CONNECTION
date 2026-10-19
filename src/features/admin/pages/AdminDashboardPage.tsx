@@ -19,8 +19,6 @@ import {
   Users,
   UserCheck,
   Home,
-  ShieldAlert,
-  CheckCircle2,
   Copy,
   RefreshCw,
   AlertCircle,
@@ -260,89 +258,6 @@ export function AdminDashboardPage() {
                 </p>
               </div>
 
-              {/* Card 4: Pending Claims */}
-              <div
-                className={cn(
-                  'relative overflow-hidden rounded-xl border p-5 shadow-xs transition-shadow hover:shadow-sm',
-                  metrics.pending_claims > 0
-                    ? 'border-amber-300 bg-amber-50/40'
-                    : 'border-navy-200 bg-white'
-                )}
-                data-testid="metric-claims"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-navy-500">
-                    Pending Claims
-                  </span>
-                  <div
-                    className={cn(
-                      'flex h-8 w-8 items-center justify-center rounded-lg',
-                      metrics.pending_claims > 0 ? 'bg-amber-100 text-amber-700' : 'bg-navy-50 text-navy-600'
-                    )}
-                  >
-                    <ShieldAlert className="h-4 w-4" aria-hidden="true" />
-                  </div>
-                </div>
-                <div className="mt-3 flex items-baseline gap-2">
-                  <span className="text-3xl font-extrabold text-navy-900" data-testid="pending-claims-value">
-                    {metrics.pending_claims}
-                  </span>
-                  <span className="text-xs text-navy-500">
-                    {metrics.pending_claims === 1 ? 'awaiting review' : 'awaiting review'}
-                  </span>
-                </div>
-                <div className="mt-3 pt-2 border-t border-navy-100 flex justify-between items-center">
-                  <Link
-                    to={ROUTES.CLAIM_REVIEW_QUEUE}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-brand-600 hover:text-brand-800 focus-visible:outline-none focus-visible:underline"
-                  >
-                    <span>Open Queue</span>
-                    <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                  </Link>
-                </div>
-              </div>
-
-              {/* Card 5: Pending Verifications */}
-              <div
-                className={cn(
-                  'relative overflow-hidden rounded-xl border p-5 shadow-xs transition-shadow hover:shadow-sm',
-                  metrics.pending_verifications > 0
-                    ? 'border-indigo-300 bg-indigo-50/40'
-                    : 'border-navy-200 bg-white'
-                )}
-                data-testid="metric-verifications"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-navy-500">
-                    Pending Verifications
-                  </span>
-                  <div
-                    className={cn(
-                      'flex h-8 w-8 items-center justify-center rounded-lg',
-                      metrics.pending_verifications > 0 ? 'bg-indigo-100 text-indigo-700' : 'bg-navy-50 text-navy-600'
-                    )}
-                  >
-                    <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-                  </div>
-                </div>
-                <div className="mt-3 flex items-baseline gap-2">
-                  <span className="text-3xl font-extrabold text-navy-900" data-testid="pending-verifications-value">
-                    {metrics.pending_verifications}
-                  </span>
-                  <span className="text-xs text-navy-500">
-                    {metrics.pending_verifications === 1 ? 'awaiting review' : 'awaiting review'}
-                  </span>
-                </div>
-                <div className="mt-3 pt-2 border-t border-navy-100 flex justify-between items-center">
-                  <Link
-                    to={ROUTES.VERIFICATION_REVIEW_QUEUE}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-brand-600 hover:text-brand-800 focus-visible:outline-none focus-visible:underline"
-                  >
-                    <span>Open Queue</span>
-                    <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                  </Link>
-                </div>
-              </div>
 
               {/* Card 6: Open Duplicates */}
               <div
@@ -387,69 +302,6 @@ export function AdminDashboardPage() {
             </h2>
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-              {/* Workflow Card 1: Claim Review Queue */}
-              <div className="rounded-xl border border-navy-200 bg-white p-6 shadow-xs flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-700 border border-amber-200">
-                      <ShieldAlert className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-bold text-navy-900">Claim Review Queue</h3>
-                      <p className="text-xs text-navy-500">
-                        {metrics.pending_claims === 1
-                          ? '1 pending record claim'
-                          : `${metrics.pending_claims} pending record claims`}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-sm text-navy-600">
-                    Review and verify requests from community users claiming ownership of historical or existing
-                    census person records. Ensures account-to-person links are authenticated and verified.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-navy-100 flex items-center justify-between">
-                  <span className="text-xs text-navy-400">Moderator & Admin Authorization</span>
-                  <Link to={ROUTES.CLAIM_REVIEW_QUEUE}>
-                    <Button variant="secondary" size="sm" className="gap-1.5 text-xs">
-                      <span>Access Queue</span>
-                      <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Workflow Card 2: Verification Review Queue */}
-              <div className="rounded-xl border border-navy-200 bg-white p-6 shadow-xs flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200">
-                      <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-bold text-navy-900">Verification Review Queue</h3>
-                      <p className="text-xs text-navy-500">
-                        {metrics.pending_verifications === 1
-                          ? '1 pending verification'
-                          : `${metrics.pending_verifications} pending verifications`}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-sm text-navy-600">
-                    Inspect census data quality and confirm relationship verification requests submitted by community
-                    members or family heads to maintain data veracity across lineages.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-navy-100 flex items-center justify-between">
-                  <span className="text-xs text-navy-400">Moderator & Admin Authorization</span>
-                  <Link to={ROUTES.VERIFICATION_REVIEW_QUEUE}>
-                    <Button variant="secondary" size="sm" className="gap-1.5 text-xs">
-                      <span>Access Queue</span>
-                      <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
 
               {/* Workflow Card 3: User Administration */}
               <div className="rounded-xl border border-navy-200 bg-white p-6 shadow-xs flex flex-col justify-between">

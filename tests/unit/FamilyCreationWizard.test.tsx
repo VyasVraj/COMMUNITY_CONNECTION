@@ -163,7 +163,7 @@ describe('FamilyCreationWizard Component', () => {
 
       // Stepper
       expect(html).toContain('Identity &amp; Details')
-      expect(html).toContain('Privacy')
+      expect(html).not.toContain('Privacy')
       expect(html).toContain('Members')
       expect(html).toContain('Review')
 
@@ -181,7 +181,7 @@ describe('FamilyCreationWizard Component', () => {
       expect(html).toContain('Nukh')
 
       // Next button
-      expect(html).toContain('Next: Privacy')
+      expect(html).toContain('Next: Members')
     })
 
     it('requires family_name field and does not invent arbitrary country defaults', () => {

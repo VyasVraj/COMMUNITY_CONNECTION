@@ -18,7 +18,7 @@ import type { Tables } from '@/types/database.types'
 import { PRIVACY_LEVEL_LABELS } from '@/constants/app'
 import type { PrivacyLevel } from '@/types'
 import { MemberList } from '@/features/family-members'
-import { AvatarImage, AvatarUploadDialog, FamilyMediaSection } from '@/features/media'
+import { AvatarImage, AvatarUploadDialog } from '@/features/media'
 import { Button } from '@/components/forms/Button'
 
 type FamilyRow = Tables<'families'>
@@ -173,10 +173,6 @@ export function FamilyDetail({ family, canManageMembers = false, onAvatarUpdated
         <MemberList familyId={family.id} canManageMembers={canManageMembers} />
       </section>
 
-      {/* Family Media, Albums & History (Phase 11 Subtask 2) */}
-      <div className="border-t border-navy-100 pt-6">
-        <FamilyMediaSection familyId={family.id} canManage={canManageMembers} />
-      </div>
 
       {/* Record Metadata */}
       <section aria-labelledby="meta-heading">

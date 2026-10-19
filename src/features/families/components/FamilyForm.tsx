@@ -29,7 +29,6 @@ import { z } from 'zod'
 import { type CreateFamilyInput } from '../schemas/families.schemas'
 import { Input } from '@/components/forms/Input'
 import { Button } from '@/components/forms/Button'
-import { PrivacyLevelSelect } from '@/components/forms/PrivacyLevelSelect'
 import type { PrivacyLevel } from '@/types'
 
 // ---------------------------------------------------------------------------
@@ -309,29 +308,6 @@ export function FamilyForm({
         </div>
       </fieldset>
 
-      {/* Privacy Settings */}
-      <fieldset>
-        <legend className="mb-1 text-sm font-semibold uppercase tracking-wide text-navy-500">
-          Privacy Settings
-        </legend>
-        <p className="mb-4 text-xs text-navy-500">
-          Configure independent visibility for this family profile and future membership roster.
-        </p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <PrivacyLevelSelect
-            label="Family profile visibility"
-            hint="Who can see the family record itself"
-            error={errors.profile_privacy?.message}
-            {...register('profile_privacy')}
-          />
-          <PrivacyLevelSelect
-            label="Members list visibility"
-            hint="Intended visibility for family members list"
-            error={errors.members_privacy?.message}
-            {...register('members_privacy')}
-          />
-        </div>
-      </fieldset>
 
       {/* Submission error display */}
       {submitError && (

@@ -8,8 +8,6 @@ import {
   LayoutDashboard,
   Users,
   History,
-  ShieldCheck,
-  CheckCircle2,
   Copy,
   UploadCloud,
 } from 'lucide-react'
@@ -36,18 +34,6 @@ export const ADMIN_NAV_ITEMS: AdminNavigationItem[] = [
     href: ROUTES.ADMIN_AUDIT,
     icon: History,
     description: 'Security & administrative audit trail',
-  },
-  {
-    label: 'Claim Reviews',
-    href: ROUTES.CLAIM_REVIEW_QUEUE,
-    icon: ShieldCheck,
-    description: 'Pending census ownership claims',
-  },
-  {
-    label: 'Verification Reviews',
-    href: ROUTES.VERIFICATION_REVIEW_QUEUE,
-    icon: CheckCircle2,
-    description: 'Pending census record verifications',
   },
   {
     label: 'Duplicates',

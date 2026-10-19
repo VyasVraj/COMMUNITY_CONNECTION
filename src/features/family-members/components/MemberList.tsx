@@ -12,7 +12,7 @@
  */
 
 import { useState } from 'react'
-import { Plus, Users, AlertCircle, Eye, EyeOff, Mail } from 'lucide-react'
+import { Plus, Users, AlertCircle, Eye, EyeOff } from 'lucide-react'
 import { useFamilyMembers } from '../hooks/useFamilyMembers'
 import { useRemoveFamilyMember } from '../hooks/useFamilyMemberMutations'
 import type { FamilyMemberWithPerson } from '../services/family-members.service'
@@ -20,7 +20,6 @@ import { MemberCard } from './MemberCard'
 import { AddMemberModal } from './AddMemberModal'
 import { EditMemberModal } from './EditMemberModal'
 import { TransferHeadModal } from './TransferHeadModal'
-import { CreateInvitationModal } from '@/features/invitations'
 import { Button } from '@/components/forms/Button'
 
 export interface MemberListProps {
@@ -31,7 +30,6 @@ export interface MemberListProps {
 export function MemberList({ familyId, canManageMembers = false }: MemberListProps) {
   const [showFormer, setShowFormer] = useState(false)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
   const [editingMember, setEditingMember] = useState<FamilyMemberWithPerson | null>(null)
   const [transferHeadMember, setTransferHeadMember] = useState<FamilyMemberWithPerson | null>(null)
   const [removingMember, setRemovingMember] = useState<FamilyMemberWithPerson | null>(null)
@@ -106,29 +104,17 @@ export function MemberList({ familyId, canManageMembers = false }: MemberListPro
             )}
           </Button>
 
-          {/* Add member and Invite member buttons */}
+          {/* Add member button */}
           {canManageMembers && (
-            <>
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                onClick={() => setIsInviteModalOpen(true)}
-                className="text-xs"
-              >
-                <Mail className="h-3.5 w-3.5" />
-                Invite Member
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                onClick={() => setIsAddModalOpen(true)}
-                className="text-xs"
-              >
-                <Plus className="h-3.5 w-3.5" />
-                Add Member
-              </Button>
-            </>
+            <Button
+              type="button"
+              size="sm"
+              onClick={() => setIsAddModalOpen(true)}
+              className="text-xs"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              Add Member
+            </Button>
           )}
         </div>
       </div>
@@ -278,12 +264,6 @@ export function MemberList({ familyId, canManageMembers = false }: MemberListPro
         currentHeadMember={currentHead}
         isOpen={Boolean(transferHeadMember)}
         onClose={() => setTransferHeadMember(null)}
-      />
-
-      <CreateInvitationModal
-        familyId={familyId}
-        isOpen={isInviteModalOpen}
-        onClose={() => setIsInviteModalOpen(false)}
       />
     </section>
   )

@@ -17,7 +17,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LogOut, User, Shield, CheckCircle, AlertCircle, Camera, Bell, GitBranch, Search, PlusCircle, ArrowRight } from 'lucide-react'
+import { LogOut, User, Shield, CheckCircle, AlertCircle, Search, PlusCircle, ArrowRight } from 'lucide-react'
 import { profileUpdateSchema, type ProfileUpdateInput } from '@/features/auth/schemas/auth.schemas'
 import { updateProfile } from '../services/profile.service'
 import { signOut } from '@/features/auth/services/auth.service'
@@ -26,7 +26,6 @@ import { usePersonByUserId } from '@/features/people'
 import { ROUTES } from '@/constants/app'
 import { Input } from '@/components/forms/Input'
 import { Button } from '@/components/forms/Button'
-import { AvatarImage, AvatarUploadDialog } from '@/features/media'
 
 export function ProfilePage() {
   const { user, profile, isLoading } = useAuthContext()
@@ -35,8 +34,6 @@ export function ProfilePage() {
   const [updateSuccess, setUpdateSuccess] = useState(false)
   const [updateError, setUpdateError] = useState<string | null>(null)
   const [isSigningOut, setIsSigningOut] = useState(false)
-  const [avatarDialogOpen, setAvatarDialogOpen] = useState(false)
-  const [currentAvatar, setCurrentAvatar] = useState<string | null>(profile?.avatar_url ?? null)
 
   const {
     register,
@@ -97,64 +94,32 @@ export function ProfilePage() {
         Manage your account settings and display preferences.
       </p>
 
-      {/* Avatar + summary card */}
-      <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-navy-200 bg-white p-6 shadow-sm">
-        <div className="flex items-center gap-4">
-          <AvatarImage
-            src={currentAvatar}
-            name={profile.display_name ?? profile.email}
-            alt={profile.display_name ?? 'Profile avatar'}
-            size="xl"
-            shape="circle"
-          />
-          <div>
-            <p className="text-lg font-semibold text-navy-900">
-              {profile.display_name ?? '(No name set)'}
-            </p>
-            <p className="text-sm text-navy-500">{profile.email}</p>
-            <div className="mt-1 flex items-center gap-2">
-              <span className="inline-flex items-center gap-1 rounded-full bg-navy-100 px-2.5 py-0.5 text-xs font-medium text-navy-700">
-                <Shield className="h-3 w-3" />
-                {profile.role.replace(/_/g, ' ')}
+      {/* Profile summary card */}
+      <div className="mt-6 rounded-lg border border-navy-200 bg-white p-6 shadow-sm">
+        <div>
+          <p className="text-lg font-semibold text-navy-900">
+            {profile.display_name ?? '(No name set)'}
+          </p>
+          <p className="text-sm text-navy-500">{profile.email}</p>
+          <div className="mt-2 flex items-center gap-2">
+            <span className="inline-flex items-center gap-1 rounded-full bg-navy-100 px-2.5 py-0.5 text-xs font-medium text-navy-700">
+              <Shield className="h-3 w-3" />
+              {profile.role.replace(/_/g, ' ')}
+            </span>
+            {profile.email_verified ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-teal-100 px-2.5 py-0.5 text-xs font-medium text-teal-700">
+                <CheckCircle className="h-3 w-3" />
+                Verified
               </span>
-              {profile.email_verified ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-teal-100 px-2.5 py-0.5 text-xs font-medium text-teal-700">
-                  <CheckCircle className="h-3 w-3" />
-                  Verified
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-700">
-                  <AlertCircle className="h-3 w-3" />
-                  Email unverified
-                </span>
-              )}
-            </div>
+            ) : (
+              <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-700">
+                <AlertCircle className="h-3 w-3" />
+                Email unverified
+              </span>
+            )}
           </div>
         </div>
-
-        <div>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setAvatarDialogOpen(true)}
-            className="flex items-center gap-2"
-          >
-            <Camera className="h-4 w-4" />
-            Change photo
-          </Button>
-        </div>
       </div>
-
-      <AvatarUploadDialog
-        isOpen={avatarDialogOpen}
-        onClose={() => setAvatarDialogOpen(false)}
-        target={{ type: 'profile', id: user.id }}
-        currentAvatarUrl={currentAvatar}
-        onSuccess={(newUrl) => {
-          setCurrentAvatar(newUrl)
-          setAvatarDialogOpen(false)
-        }}
-      />
 
       {/* Edit form */}
       <div className="mt-6 rounded-lg border border-navy-200 bg-white p-6 shadow-sm">
@@ -273,13 +238,6 @@ export function ProfilePage() {
                     View Record
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
-                  <Link
-                    to={ROUTES.PERSON_TREE(linkedPerson.id)}
-                    className="inline-flex items-center gap-1 rounded-md bg-teal-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-800 shadow-2xs"
-                  >
-                    <GitBranch className="h-3.5 w-3.5" />
-                    Family Tree
-                  </Link>
                 </div>
               </div>
             </div>
@@ -313,25 +271,6 @@ export function ProfilePage() {
               </div>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Notification Preferences */}
-      <div className="mt-6 rounded-lg border border-navy-200 bg-white p-6 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-base font-medium text-navy-900">Notification preferences</h2>
-            <p className="mt-1 text-sm text-navy-500">
-              Manage how and when you receive in-app and email updates for community activity.
-            </p>
-          </div>
-          <Link
-            to={ROUTES.NOTIFICATION_PREFERENCES}
-            className="inline-flex items-center gap-1.5 rounded-md border border-navy-300 bg-white px-3 py-1.5 text-sm font-medium text-navy-700 shadow-sm hover:bg-navy-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
-          >
-            <Bell className="h-4 w-4 text-navy-500" />
-            Manage
-          </Link>
         </div>
       </div>
 
