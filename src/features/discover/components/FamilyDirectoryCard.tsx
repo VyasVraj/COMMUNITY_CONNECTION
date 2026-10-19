@@ -14,7 +14,7 @@
  */
 
 import { useNavigate } from 'react-router-dom'
-import { Users, MapPin, CheckCircle2, Clock, AlertCircle } from 'lucide-react'
+import { Users, MapPin } from 'lucide-react'
 import type { FamilyDiscoveryResult } from '../types'
 import { ROUTES } from '@/constants/app'
 
@@ -82,11 +82,6 @@ export function FamilyDirectoryCard({
               <h3 className="truncate text-base font-semibold text-navy-900 group-hover:text-brand-600">
                 {family.family_name}
               </h3>
-              {family.verification_status === 'VERIFIED' && (
-                <span title="Verified Family" aria-label="Verified Family">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
-                </span>
-              )}
             </div>
 
             {/* Location (City, State, Country) */}
@@ -121,7 +116,7 @@ export function FamilyDirectoryCard({
         )}
       </div>
 
-      {/* Bottom Footer: Status and Verification badge */}
+      {/* Bottom Footer: Status */}
       <div className="mt-4 flex items-center justify-between border-t border-navy-100 pt-2.5 text-[11px]">
         <div>
           {family.status === 'ACTIVE' ? (
@@ -136,26 +131,6 @@ export function FamilyDirectoryCard({
             <span className="rounded-full bg-amber-50 px-2 py-0.5 font-medium text-amber-700">
               Draft
             </span>
-          )}
-        </div>
-
-        <div>
-          {family.verification_status === 'VERIFIED' ? (
-            <span className="inline-flex items-center gap-1 font-medium text-emerald-700">
-              Verified
-            </span>
-          ) : family.verification_status === 'PENDING' ? (
-            <span className="inline-flex items-center gap-1 text-amber-700">
-              <Clock className="h-3 w-3" />
-              <span>Pending</span>
-            </span>
-          ) : family.verification_status === 'REJECTED' ? (
-            <span className="inline-flex items-center gap-1 text-red-600">
-              <AlertCircle className="h-3 w-3" />
-              <span>Rejected</span>
-            </span>
-          ) : (
-            <span className="text-navy-400">Unverified</span>
           )}
         </div>
       </div>

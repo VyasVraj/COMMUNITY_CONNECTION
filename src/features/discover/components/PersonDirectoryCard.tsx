@@ -13,7 +13,7 @@
  */
 
 import { useNavigate } from 'react-router-dom'
-import { MapPin, CheckCircle2, Clock, AlertCircle } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import type { PersonDiscoveryResult } from '../types'
 import { ROUTES } from '@/constants/app'
 
@@ -111,11 +111,6 @@ export function PersonDirectoryCard({
               <h3 className="truncate text-base font-semibold text-navy-900 group-hover:text-brand-600">
                 {fullName}
               </h3>
-              {person.verification_status === 'VERIFIED' && (
-                <span title="Verified Member" aria-label="Verified Member">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
-                </span>
-              )}
             </div>
 
             {person.maiden_name && (
@@ -176,26 +171,6 @@ export function PersonDirectoryCard({
             <span className="capitalize text-navy-500">
               {person.gender.toLowerCase()}
             </span>
-          )}
-        </div>
-
-        <div>
-          {person.verification_status === 'VERIFIED' ? (
-            <span className="inline-flex items-center gap-1 font-medium text-emerald-700">
-              Verified
-            </span>
-          ) : person.verification_status === 'PENDING' ? (
-            <span className="inline-flex items-center gap-1 text-amber-700">
-              <Clock className="h-3 w-3" />
-              <span>Pending</span>
-            </span>
-          ) : person.verification_status === 'REJECTED' ? (
-            <span className="inline-flex items-center gap-1 text-red-600">
-              <AlertCircle className="h-3 w-3" />
-              <span>Rejected</span>
-            </span>
-          ) : (
-            <span className="text-navy-400">Unverified</span>
           )}
         </div>
       </div>

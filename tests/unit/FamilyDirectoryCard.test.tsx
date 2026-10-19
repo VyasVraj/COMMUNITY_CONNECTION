@@ -74,24 +74,24 @@ describe('FamilyDirectoryCard', () => {
     expect(archivedHtml).toContain('Archived')
   })
 
-  it('renders verification badge states correctly', () => {
+  it('does not render verification badge states', () => {
     const verifiedHtml = renderCard({ family: BASE_FAMILY })
-    expect(verifiedHtml).toContain('Verified')
+    expect(verifiedHtml).not.toContain('Verified')
 
     const pendingHtml = renderCard({
       family: { ...BASE_FAMILY, verification_status: 'PENDING' },
     })
-    expect(pendingHtml).toContain('Pending')
+    expect(pendingHtml).not.toContain('Pending')
 
     const unverifiedHtml = renderCard({
       family: { ...BASE_FAMILY, verification_status: 'UNVERIFIED' },
     })
-    expect(unverifiedHtml).toContain('Unverified')
+    expect(unverifiedHtml).not.toContain('Unverified')
 
     const rejectedHtml = renderCard({
       family: { ...BASE_FAMILY, verification_status: 'REJECTED' },
     })
-    expect(rejectedHtml).toContain('Rejected')
+    expect(rejectedHtml).not.toContain('Rejected')
   })
 
   it('strictly excludes internal metadata, member rosters, and timestamps', () => {

@@ -12,14 +12,11 @@
  * No dangerouslySetInnerHTML. All values rendered as React text.
  */
 
-import { useState } from 'react'
-import { Camera } from 'lucide-react'
 import type { Tables } from '@/types/database.types'
 import { PRIVACY_LEVEL_LABELS } from '@/constants/app'
 import type { PrivacyLevel } from '@/types'
 import { MemberList } from '@/features/family-members'
-import { AvatarImage, AvatarUploadDialog } from '@/features/media'
-import { Button } from '@/components/forms/Button'
+import { AvatarImage } from '@/features/media'
 
 type FamilyRow = Tables<'families'>
 
@@ -52,9 +49,8 @@ export interface FamilyDetailProps {
 /**
  * Full read-only family detail panel.
  */
-export function FamilyDetail({ family, canManageMembers = false, onAvatarUpdated }: FamilyDetailProps) {
-  const [avatarDialogOpen, setAvatarDialogOpen] = useState(false)
-  const [currentAvatarUrl, setCurrentAvatarUrl] = useState<string | null>(family.avatar_url ?? null)
+export function FamilyDetail({ family, canManageMembers = false }: FamilyDetailProps) {
+  const currentAvatarUrl = family.avatar_url ?? null
 
   return (
     <div className="space-y-6">
@@ -80,35 +76,7 @@ export function FamilyDetail({ family, canManageMembers = false, onAvatarUpdated
             )}
           </div>
         </div>
-
-        {canManageMembers && (
-          <div>
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setAvatarDialogOpen(true)}
-              className="flex items-center gap-2"
-            >
-              <Camera className="h-4 w-4" />
-              Change crest
-            </Button>
-          </div>
-        )}
       </section>
-
-      {avatarDialogOpen && (
-        <AvatarUploadDialog
-          isOpen={avatarDialogOpen}
-          onClose={() => setAvatarDialogOpen(false)}
-          target={{ type: 'family', id: family.id }}
-          currentAvatarUrl={currentAvatarUrl}
-          onSuccess={(newUrl) => {
-            setCurrentAvatarUrl(newUrl)
-            setAvatarDialogOpen(false)
-            onAvatarUpdated?.(newUrl)
-          }}
-        />
-      )}
 
       {/* Location */}
       <section aria-labelledby="location-heading">

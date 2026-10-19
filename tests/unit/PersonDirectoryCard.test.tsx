@@ -117,24 +117,24 @@ describe('PersonDirectoryCard', () => {
     expect(html).toContain('d. 2010')
   })
 
-  it('renders verification badge states correctly', () => {
+  it('does not render verification badge states', () => {
     const verifiedHtml = renderCard({ person: BASE_PERSON })
-    expect(verifiedHtml).toContain('Verified')
+    expect(verifiedHtml).not.toContain('Verified')
 
     const pendingHtml = renderCard({
       person: { ...BASE_PERSON, verification_status: 'PENDING' },
     })
-    expect(pendingHtml).toContain('Pending')
+    expect(pendingHtml).not.toContain('Pending')
 
     const unverifiedHtml = renderCard({
       person: { ...BASE_PERSON, verification_status: 'UNVERIFIED' },
     })
-    expect(unverifiedHtml).toContain('Unverified')
+    expect(unverifiedHtml).not.toContain('Unverified')
 
     const rejectedHtml = renderCard({
       person: { ...BASE_PERSON, verification_status: 'REJECTED' },
     })
-    expect(rejectedHtml).toContain('Rejected')
+    expect(rejectedHtml).not.toContain('Rejected')
   })
 
   it('strictly excludes private contact and system metadata from output', () => {

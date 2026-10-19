@@ -16,7 +16,6 @@ import { ArrowLeft, Pencil, Trash2 } from 'lucide-react'
 import { useFamily } from '../hooks/useFamily'
 import { useSoftDeleteFamily } from '../hooks/useFamilyMutations'
 import { FamilyDetail } from '../components/FamilyDetail'
-import { FamilyVerificationSection } from '@/features/verification'
 import { useAuthContext } from '@/features/auth/context/AuthContext'
 import { Button } from '@/components/forms/Button'
 import { ROUTES, ADMIN_ROLES } from '@/constants/app'
@@ -150,11 +149,6 @@ export function FamilyDetailPage() {
       {/* Detail panel with roster */}
       <div className="rounded-lg border border-navy-200 bg-white p-6 shadow-sm">
         <FamilyDetail family={family} canManageMembers={canManageMembers} />
-      </div>
-
-      {/* Community verification section */}
-      <div className="mt-6">
-        <FamilyVerificationSection family={family} />
       </div>
     </div>
   )

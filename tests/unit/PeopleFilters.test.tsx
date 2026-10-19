@@ -88,13 +88,13 @@ describe('People Directory Filter Components', () => {
       expect(html).toContain('Kul')
       expect(html).toContain('Birth Place')
       expect(html).toContain('Living Status')
-      expect(html).toContain('Verification Status')
+      expect(html).not.toContain('Verification Status')
       // Supported dropdown options
       expect(html).toContain('Kashyap')
       expect(html).toContain('Vatsa')
       expect(html).toContain('Active')
       expect(html).toContain('Deceased')
-      expect(html).toContain('Verified')
+      expect(html).not.toContain('All Verification States')
     })
   })
 

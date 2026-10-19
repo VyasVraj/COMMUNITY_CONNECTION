@@ -64,7 +64,7 @@ describe('Family Directory Filter Components', () => {
       expect(html).toContain('State')
       expect(html).toContain('Country')
       expect(html).toContain('Status')
-      expect(html).toContain('Verification Status')
+      expect(html).not.toContain('Verification Status')
       // Supported dropdown options
       expect(html).toContain('Mumbai')
       expect(html).toContain('Ahmedabad')

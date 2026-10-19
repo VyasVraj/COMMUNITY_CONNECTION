@@ -14,22 +14,20 @@
  */
 
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LogOut, User, Shield, CheckCircle, AlertCircle, Search, PlusCircle, ArrowRight } from 'lucide-react'
+import { LogOut, User, Shield, CheckCircle, AlertCircle } from 'lucide-react'
 import { profileUpdateSchema, type ProfileUpdateInput } from '@/features/auth/schemas/auth.schemas'
 import { updateProfile } from '../services/profile.service'
 import { signOut } from '@/features/auth/services/auth.service'
 import { useAuthContext } from '@/features/auth/context/AuthContext'
-import { usePersonByUserId } from '@/features/people'
 import { ROUTES } from '@/constants/app'
 import { Input } from '@/components/forms/Input'
 import { Button } from '@/components/forms/Button'
 
 export function ProfilePage() {
   const { user, profile, isLoading } = useAuthContext()
-  const { data: linkedPerson, isLoading: isLoadingPerson } = usePersonByUserId(user?.id)
   const navigate = useNavigate()
   const [updateSuccess, setUpdateSuccess] = useState(false)
   const [updateError, setUpdateError] = useState<string | null>(null)
@@ -193,86 +191,6 @@ export function ProfilePage() {
         </dl>
       </div>
 
-      {/* Community Census Record (PERSON != USER) */}
-      <div className="mt-6 rounded-lg border border-navy-200 bg-white p-6 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-base font-medium text-navy-900">Community Census Record</h2>
-            <p className="mt-1 text-sm text-navy-500">
-              Your genealogical identity in the community census (separate from your login account).
-            </p>
-          </div>
-          <span className="inline-flex items-center rounded-md bg-navy-50 px-2 py-0.5 text-xs font-semibold text-navy-600 border border-navy-200">
-            PERSON ≠ USER
-          </span>
-        </div>
-
-        <div className="mt-4">
-          {isLoadingPerson ? (
-            <p className="text-xs text-navy-500">Loading linked census record…</p>
-          ) : linkedPerson ? (
-            <div className="rounded-lg border border-teal-200 bg-teal-50/50 p-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-navy-900">
-                      {linkedPerson.first_name} {linkedPerson.last_name}
-                    </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-teal-100 px-2 py-0.5 text-[11px] font-semibold text-teal-800">
-                      <CheckCircle className="h-3 w-3" />
-                      Linked to this account
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-navy-600">
-                    {linkedPerson.gotra ? `Gotra: ${linkedPerson.gotra} • ` : ''}
-                    {linkedPerson.birth_place ? `Birth Place: ${linkedPerson.birth_place} • ` : ''}
-                    Privacy: {linkedPerson.profile_privacy}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Link
-                    to={ROUTES.PERSON_DETAIL(linkedPerson.id)}
-                    className="inline-flex items-center gap-1 rounded-md border border-teal-300 bg-white px-3 py-1.5 text-xs font-semibold text-teal-800 hover:bg-teal-50 shadow-2xs"
-                  >
-                    View Record
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="rounded-lg border border-dashed border-navy-200 bg-navy-50/40 p-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs font-semibold text-navy-800">
-                    No census record is currently linked to your user account
-                  </p>
-                  <p className="mt-0.5 text-xs text-navy-500">
-                    You can search the community directory for your existing genealogical record or add a new record.
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Link
-                    to={ROUTES.DISCOVER}
-                    className="inline-flex items-center gap-1 rounded-md border border-navy-300 bg-white px-3 py-1.5 text-xs font-semibold text-navy-700 hover:bg-navy-50 shadow-2xs"
-                  >
-                    <Search className="h-3.5 w-3.5 text-navy-500" />
-                    Search Directory
-                  </Link>
-                  <Link
-                    to={ROUTES.PERSON_CREATE}
-                    className="inline-flex items-center gap-1 rounded-md bg-navy-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-navy-800 shadow-2xs"
-                  >
-                    <PlusCircle className="h-3.5 w-3.5" />
-                    Add My Record
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
 
       {/* Sign out */}
       <div className="mt-6">

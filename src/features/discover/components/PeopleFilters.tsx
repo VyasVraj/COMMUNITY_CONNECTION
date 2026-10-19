@@ -238,28 +238,6 @@ export function PeopleFilters({
                 <option value="DRAFT">Draft</option>
               </select>
             </div>
-
-            {/* Verification Status Filter */}
-            <div>
-              <label
-                htmlFor="filter-verification-status"
-                className="mb-1 block text-xs font-medium text-navy-700"
-              >
-                Verification Status
-              </label>
-              <select
-                id="filter-verification-status"
-                value={filters.verification_status ?? ''}
-                onChange={(e) => handleChange('verification_status', e.target.value)}
-                className="w-full rounded-md border border-navy-300 bg-white px-3 py-1.5 text-xs text-navy-900 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
-              >
-                <option value="">All Verification States</option>
-                <option value="VERIFIED">Verified</option>
-                <option value="PENDING">Pending</option>
-                <option value="UNVERIFIED">Unverified</option>
-                <option value="REJECTED">Rejected</option>
-              </select>
-            </div>
           </div>
         </div>
       )}
