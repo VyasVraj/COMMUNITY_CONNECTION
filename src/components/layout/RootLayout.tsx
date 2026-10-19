@@ -11,6 +11,8 @@
 import { Outlet } from 'react-router-dom'
 import { AppHeader } from './AppHeader'
 import { AppFooter } from './AppFooter'
+import { PWAInstallPrompt } from '@/components/common/PWAInstallPrompt'
+import { PWAUpdateNotification } from '@/components/common/PWAUpdateNotification'
 
 export function RootLayout() {
   return (
@@ -25,6 +27,8 @@ export function RootLayout() {
         <Outlet />
       </main>
       <AppFooter />
+      <PWAInstallPrompt />
+      <PWAUpdateNotification />
     </div>
   )
 }

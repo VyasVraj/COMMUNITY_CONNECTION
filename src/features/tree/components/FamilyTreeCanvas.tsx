@@ -189,8 +189,10 @@ function CanvasInner({ rootPersonId, className }: FamilyTreeCanvasProps) {
         nodesConnectable={false}
         elementsSelectable={true}
         zoomOnScroll={true}
+        zoomOnPinch={true}
         panOnScroll={false}
         panOnDrag={true}
+        preventScrolling={false}
         proOptions={{ hideAttribution: true }}
       >
         <Background
