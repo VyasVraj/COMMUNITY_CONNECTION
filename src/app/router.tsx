@@ -73,13 +73,6 @@ const router = createBrowserRouter([
             element: <Navigate to={ROUTES.FAMILIES} replace />,
           },
           {
-            path: ROUTES.COMMUNITY,
-            lazy: () =>
-              import('@/features/community/pages/CommunityPage').then((m) => ({
-                Component: m.CommunityPage,
-              })),
-          },
-          {
             path: ROUTES.CONNECTIONS,
             lazy: () =>
               import('@/features/connections/pages/ConnectionsPage').then((m) => ({

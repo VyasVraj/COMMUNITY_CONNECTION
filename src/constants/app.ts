@@ -17,7 +17,6 @@ export const ROUTES = {
   HOME: '/',
   DISCOVER: '/discover',
   FAMILY: '/family',
-  COMMUNITY: '/community',
   CONNECTIONS: '/connections',
   PROFILE: '/profile',
   // Auth

@@ -4,9 +4,6 @@ import * as path from 'path'
 import { createPersonSchema } from '@/features/people/schemas/people.schemas'
 import { createFamilySchema } from '@/features/families/schemas/families.schemas'
 import { submitClaimSchema, rejectClaimSchema } from '@/features/claims/schemas/claims.schemas'
-import { createAnnouncementSchema } from '@/features/community/schemas/announcement.schemas'
-import { createEventSchema, cancelEventSchema, setEventRsvpSchema } from '@/features/community/schemas/event.schemas'
-import { createGroupSchema } from '@/features/community/schemas/group.schemas'
 import { submitVerificationRequestSchema, rejectVerificationRequestSchema } from '@/features/verification/schemas/verification.schemas'
 import { createRelationshipSchema } from '@/features/relationships/schemas/relationships.schema'
 
@@ -106,57 +103,6 @@ describe('Security & XSS Audit: Free-Text Fields & Sanitization Integration', ()
         reason: 'Invalid document <iframe src="evil.com"></iframe> submitted.',
       })
       expect(rejection.reason).toBe('Invalid document submitted.')
-    })
-
-    it('strips malicious markup in Announcements schema', () => {
-      const announcement = createAnnouncementSchema.parse({
-        title: 'Community Gathering <script>alert(1)</script>',
-        content: 'Dear members,\n\nPlease join us at the hall.\n<script>alert(2)</script>Regards,\nCommittee',
-        announcement_type: 'GENERAL',
-      })
-
-      expect(announcement.title).toBe('Community Gathering')
-      expect(announcement.content).toBe('Dear members,\n\nPlease join us at the hall.\nRegards,\nCommittee')
-    })
-
-    it('strips malicious markup in Events and RSVPs schemas', () => {
-      const event = createEventSchema.parse({
-        title: 'Annual Festival <img src="x" onerror="steal()" />',
-        description: 'Festival details <script>evil()</script>\nLine 2',
-        event_type: 'FESTIVAL',
-        start_time: '2026-12-01T10:00:00Z',
-        location: 'Community Center <iframe src="evil.com"></iframe>',
-      })
-
-      expect(event.title).toBe('Annual Festival')
-      expect(event.description).toBe('Festival details\nLine 2')
-      expect(event.location).toBe('Community Center')
-
-      const rsvp = setEventRsvpSchema.parse({
-        event_id: '11111111-1111-4111-8111-111111111111',
-        notes: 'Bringing sweets <script>alert(1)</script>',
-      })
-      expect(rsvp.notes).toBe('Bringing sweets')
-
-      const cancel = cancelEventSchema.parse({
-        id: '11111111-1111-4111-8111-111111111111',
-        cancellation_reason: 'Inclement weather <script>evil()</script>',
-      })
-      expect(cancel.cancellation_reason).toBe('Inclement weather')
-    })
-
-    it('strips malicious markup in Groups schema', () => {
-      const group = createGroupSchema.parse({
-        name: 'Youth Association <script>alert(1)</script>',
-        slug: 'youth-association',
-        description: 'Activities and workshops <style>body{color:red}</style>',
-        group_type: 'YOUTH',
-        location: 'Vadodara <script>evil()</script>',
-      })
-
-      expect(group.name).toBe('Youth Association')
-      expect(group.description).toBe('Activities and workshops')
-      expect(group.location).toBe('Vadodara')
     })
 
     it('strips malicious markup in Verification schemas', () => {

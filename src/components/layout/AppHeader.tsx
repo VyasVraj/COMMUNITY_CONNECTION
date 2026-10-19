@@ -20,7 +20,6 @@ import { NotificationBell } from '@/features/notifications'
 const NAV_LINKS = [
   { label: 'Discover', href: ROUTES.DISCOVER },
   { label: 'My Family', href: ROUTES.FAMILIES },
-  { label: 'Community', href: ROUTES.COMMUNITY },
 ] as const
 
 function getInitials(name: string | null | undefined): string {
