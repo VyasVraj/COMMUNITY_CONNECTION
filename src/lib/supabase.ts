@@ -10,13 +10,16 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/database.types'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const fallbackUrl = 'https://ixhvsprwjalgcyievsrg.supabase.co'
+const fallbackAnonKey = 'sb_publishable_NChpgGh4zPuuyKR-nRU2Zg_Wr_16GMe'
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || fallbackUrl
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || fallbackAnonKey
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error(
     '[Supabase] Missing environment variables. ' +
-      'Ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your .env file. ' +
+      'Ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your .env file or hosting environment. ' +
       'See .env.example for reference.'
   )
 }
